@@ -1,0 +1,41 @@
+# Root CA
+[ ca ]
+default_ca = RootCA
+
+[ RootCA ]
+dir = root
+private_key = $dir/RootCA.key
+certificate = $dir/RootCA.crt
+new_certs_dir = $dir/certs
+database = $dir/index.txt
+policy = policy_very_loose
+serial = $dir/serial
+
+[ policy_very_loose ]
+commonName = supplied
+
+[ req ]
+distinguished_name  = req_distinguished_name
+x509_extensions     = v3_ca
+
+[ req_distinguished_name ]
+commonName                      = Common Name
+
+[ v3_ca ]
+# Extensions for a typical CA (`man x509v3_config`).
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid:always,issuer
+basicConstraints = critical, CA:true
+keyUsage = critical, digitalSignature, cRLSign, keyCertSign
+
+[ v3_intermediate_ca ]
+# Extensions for a typical intermediate CA (`man x509v3_config`).
+subjectKeyIdentifier = hash
+# hash: automatically follow the guidelines in RFC3280
+authorityKeyIdentifier = keyid:always,issuer
+# keyid: the subject key id from the parent certificate
+# issuer: the issuer and serial number from the issuer certificate
+basicConstraints = critical, CA:true, pathlen:0
+# critical(extensions wide)
+# pathlen: the maximum number of CAs that can appear below this one in a chain.
+keyUsage = critical, digitalSignature, cRLSign, keyCertSign

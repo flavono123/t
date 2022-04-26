@@ -1,0 +1,36 @@
+[ ca ]
+default_ca = IntermediateCA
+
+[ IntermediateCA ]
+dir = intermediate
+private_key = $dir/IntermediateCA.key
+certificate = $dir/IntermediateCA.crt
+new_certs_dir = $dir/certs
+database = $dir/index.txt
+policy = policy_very_loose
+serial = $dir/serial
+
+[ policy_very_loose ]
+commonName = supplied
+
+[ req ]
+distinguished_name  = req_distinguished_name
+
+[ req_distinguished_name ]
+commonName                      = Common Name
+
+[ v3_cert ]
+basicConstraints = CA:FALSE
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer
+keyUsage = critical, digitalSignature, keyEncipherment
+extendedKeyUsage = serverAuth, clientAuth
+subjectAltName = DNS:localhost
+authorityInfoAccess = OCSP;URI:http://ocsp:2560
+
+[ ocsp ]
+basicConstraints = CA:FALSE
+subjectKeyIdentifier = hash
+authorityKeyIdentifier = keyid,issuer
+keyUsage = critical, digitalSignature
+extendedKeyUsage = critical, OCSPSigning

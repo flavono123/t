@@ -1,0 +1,31 @@
+# permissions for end users to edit buildings.
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  labels:
+    app.kubernetes.io/name: clusterrole
+    app.kubernetes.io/instance: building-editor-role
+    app.kubernetes.io/component: rbac
+    app.kubernetes.io/created-by: building
+    app.kubernetes.io/part-of: building
+    app.kubernetes.io/managed-by: kustomize
+  name: building-editor-role
+rules:
+- apiGroups:
+  - webapp.my.domain
+  resources:
+  - buildings
+  verbs:
+  - create
+  - delete
+  - get
+  - list
+  - patch
+  - update
+  - watch
+- apiGroups:
+  - webapp.my.domain
+  resources:
+  - buildings/status
+  verbs:
+  - get

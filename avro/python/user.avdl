@@ -1,0 +1,6 @@
+// import schema "user.avsc"
+record User {
+  string name;
+  union {null, int} favorite_number;
+  union {null, string} favorite_color;
+}
